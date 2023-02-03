@@ -12,11 +12,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text firstPinText;
     [SerializeField] private TMP_Text secondPinText;
     [SerializeField] private TMP_Text thirdPinText;
+    [SerializeField] private TMP_Text drillNumbersText;
+    [SerializeField] private TMP_Text hammerNumbersText;
+    [SerializeField] private TMP_Text picklockNumbersText;
     [Space]
     [Header("Требуемые пины в замке")]
-    [SerializeField] private int firstPinRight;
-    [SerializeField] private int secondPinRight;
-    [SerializeField] private int thirdPinRight;
+    [SerializeField, Range(1, 10)] private int firstPinRight;
+    [SerializeField, Range(1, 10)] private int secondPinRight;
+    [SerializeField, Range(1, 10)] private int thirdPinRight;
     [Space]
     [Header("Время")]
     [SerializeField] private int startingTime;
@@ -24,6 +27,19 @@ public class GameManager : MonoBehaviour
     [Header("Окна")]
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject loseScreen;
+    [Space]
+    [Header("Дрель")]
+    [SerializeField, Range(-10, 10)] private int drillFirstPin;
+    [SerializeField, Range(-10, 10)] private int drillSecondPin;
+    [SerializeField, Range(-10, 10)] private int drillThirdPin;
+    [Header("Молоток")]
+    [SerializeField, Range(-10, 10)] private int hammerFirstPin;
+    [SerializeField, Range(-10, 10)] private int hammerSecondPin;
+    [SerializeField, Range(-10, 10)] private int hammerThirdPin;
+    [Header("Отмычка")]
+    [SerializeField, Range(-10, 10)] private int picklockFirstPin;
+    [SerializeField, Range(-10, 10)] private int picklockSecondPin;
+    [SerializeField, Range(-10, 10)] private int picklockThirdPin;
 
     private float currentTime;
 
@@ -32,6 +48,8 @@ public class GameManager : MonoBehaviour
     private int thirdPinCurrent;
 
     private bool enableTimer;
+
+    
 
     private void Start()
     {
@@ -47,6 +65,10 @@ public class GameManager : MonoBehaviour
         thirdPinText.text = thirdPinCurrent.ToString();
 
         enableTimer = true;
+
+        drillNumbersText.text = $"{drillFirstPin} | {drillSecondPin} | {drillThirdPin}";
+        hammerNumbersText.text = $"{hammerFirstPin} | {hammerSecondPin} | {hammerThirdPin}";
+        picklockNumbersText.text = $"{picklockFirstPin} | {picklockSecondPin} | {picklockThirdPin}";
     }
 
     private void Update()
@@ -88,17 +110,17 @@ public class GameManager : MonoBehaviour
     #region OnCklick functions
     public void UsingDrill()
     {
-        UsingInstruments(1, -1, 0);
+        UsingInstruments(drillFirstPin, drillSecondPin, drillThirdPin);
     }
 
-    public void UsingHummer()
+    public void UsingHammer()
     {
-        UsingInstruments(-1, 2, -1);
+        UsingInstruments(hammerFirstPin, hammerSecondPin, hammerThirdPin);
     }
 
     public void UsingPicklock()
     {
-        UsingInstruments(-1, 1, 1);
+        UsingInstruments(picklockFirstPin, picklockSecondPin, picklockThirdPin);
     }
 
     private void UsingInstruments(int firstPin, int secondPin, int thirdPin)
